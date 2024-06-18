@@ -13,6 +13,11 @@ const App = () => {
     setState(prev => prev + 1)
   }
 
+  function getTotal(){
+    const totalSum = bad + good + neutral
+    return totalSum
+  }
+
   return (
     <div>
       <Title text="give feedback"/>
@@ -23,6 +28,9 @@ const App = () => {
       <Paragraph text="good" counter={good}/>
       <Paragraph text="neutral" counter={neutral}/>
       <Paragraph text="bad" counter={bad}/>
+      <Paragraph text="all" counter={getTotal()}/>
+      <Paragraph text="average" counter={((good - bad)/getTotal())}/>
+      <Paragraph percentage="%" text="positive" counter={(good / getTotal()) * 100}/>
     </div>
   )
 }

@@ -1,8 +1,8 @@
-const Paragraph = ({text , counter}) => {
+const Paragraph = ({text , counter , percentage}) => {
 
   return (
     <p>
-      {text + " " + counter}
+      {text + " " + counter + " " + (percentage ? percentage : "")}
     </p>
   )
 }
