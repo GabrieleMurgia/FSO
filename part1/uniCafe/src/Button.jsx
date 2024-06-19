@@ -1,7 +1,7 @@
-const Button = ({text , onNextAnecdotes }) => {
+const Button = ({text , onNextAnecdotes , onVote }) => {
 
   return (
-    <button onClick={onNextAnecdotes}>
+    <button onClick={onNextAnecdotes ? onNextAnecdotes : onVote}>
       {text}
     </button>
   )
