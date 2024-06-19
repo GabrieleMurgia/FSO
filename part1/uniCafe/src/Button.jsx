@@ -1,7 +1,7 @@
-const Button = ({text , counter , onClick}) => {
+const Button = ({text , onNextAnecdotes }) => {
 
   return (
-    <button onClick={onClick}>
+    <button onClick={onNextAnecdotes}>
       {text}
     </button>
   )
