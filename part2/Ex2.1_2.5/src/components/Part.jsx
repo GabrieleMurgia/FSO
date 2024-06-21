@@ -3,7 +3,6 @@ const Part = ({exercise , name}) => {
     return (
         <>
         <p>{name} {exercise}</p>
-        
         </>
     )
 }
