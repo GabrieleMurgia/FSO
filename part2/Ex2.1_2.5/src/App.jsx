@@ -46,6 +46,7 @@ const App = () => {
     }
   ]
 
+  //Course component was already in a separate module
   return <>
     {courses.map(course =>{
       return <Course course={course} />
