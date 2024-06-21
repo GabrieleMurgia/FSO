@@ -8,14 +8,23 @@ const App = () => {
 
   function handleSumbmitNewName(e){
     e.preventDefault()
-    setPersons(persons.concat({
-      name:newName
-    }))
+
+    if(getStringPersons().includes(JSON.stringify({"name":newName}))){
+      alert(`${newName} is already added to phonebook`)
+    }else{
+      setPersons(persons.concat({
+        name:newName
+      }))
+    }
   }
 
   function handleChangeNewName(e){
     setNewName(e.target.value)
+  }
 
+  function getStringPersons(){
+    const stringPersons = persons.map(person => JSON.stringify(person))
+    return stringPersons
   }
 
   return (
