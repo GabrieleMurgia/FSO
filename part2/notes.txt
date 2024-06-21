@@ -1,0 +1,5 @@
+Anti-pattern: Array Indexes as Keys
+-This is, however, not recommended and can create undesired problems even if it seems to be working just fine.
+
+Errors:
+Quite often the root of the problem is that the props are expected to be of a different type, or called with a different name than they actually have,
