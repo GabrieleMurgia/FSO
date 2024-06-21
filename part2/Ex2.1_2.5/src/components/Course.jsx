@@ -5,7 +5,7 @@ import './Course.css';
 const Course = ({course}) => {
 
     const total = course.parts.reduce((sum,init)=>{
-        return sum + init.exercises
+        return sum + init.exercises //Already implemented in 2.2
     },0)    
 
     return(
