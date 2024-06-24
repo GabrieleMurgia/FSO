@@ -5,26 +5,38 @@ const App = () => {
     { name: 'Arto Hellas' }
   ]) 
   const [newName, setNewName] = useState('')
+  const [newNumber, setNewNumber] = useState(0)
 
   function handleSumbmitNewName(e){
     e.preventDefault()
-
-    if(getStringPersons().includes(JSON.stringify({"name":newName}))){
+    if(persons.filter(person => person.name == newName).length){
       alert(`${newName} is already added to phonebook`)
     }else{
       setPersons(persons.concat({
-        name:newName
+        name:newName,
+        number:newNumber
       }))
     }
   }
 
-  function handleChangeNewName(e){
-    setNewName(e.target.value)
+  function handleChangeNewValue(e){
+    let isInputNumber = e.target.className
+    let cValue = e.target.value
+    if(isInputNumber === 'inputNumber'){
+      if(handleOnlyNumberValues(cValue)){
+        setNewNumber(cValue)
+      }
+    }else{
+      setNewName(cValue)
+    }
   }
 
-  function getStringPersons(){
-    const stringPersons = persons.map(person => JSON.stringify(person))
-    return stringPersons
+  function handleOnlyNumberValues(cValue){
+  const nonNumericPattern = /[^\d.+-]/;
+  if (nonNumericPattern.test(cValue)) {
+    return false;
+  }
+  return true;
   }
 
   return (
@@ -32,7 +44,10 @@ const App = () => {
       <h2>Phonebook</h2>
       <form>
         <div>
-          name: <input value={newName} onChange={handleChangeNewName}/>
+          name: <input value={newName} onChange={handleChangeNewValue}/>
+        </div>
+        <div>
+          number: <input value={newNumber} className="inputNumber" onChange={handleChangeNewValue}/>
         </div>
         <div>
           <button onClick={handleSumbmitNewName} type="submit">add</button>
@@ -40,7 +55,7 @@ const App = () => {
       </form>
       <h2>Numbers</h2>
       {persons.map(person =>{
-        return <p key={person.name + Math.random()}>{person.name}</p>
+        return <p key={person.name + Math.random()}>{person.name} {person.number}</p>
       })}
     </div>
   )
