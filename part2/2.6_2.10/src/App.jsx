@@ -1,4 +1,7 @@
 import { useState } from 'react'
+import Filter from './components/Filter'
+import PersonForm from './components/PersonForm'
+import Persons from './components/Persons'
 
 const App = () => {
   const [persons, setPersons] = useState([
@@ -14,12 +17,19 @@ const App = () => {
 
   function handleSumbmitNewName(e){
     e.preventDefault()
-    if(persons.filter(person => person.name == newName).length){
+    if(filteredPersons.filter(person => person.name == newName).length){
       alert(`${newName} is already added to phonebook`)
     }else{
-      setPersons(persons.concat({
+      setFilteredPersons(filteredPersons.concat({
         name:newName,
-        number:newNumber
+        number:newNumber,
+        id:filteredPersons.length + 1
+      }))
+
+      setPersons(filteredPersons.concat({
+        name:newName,
+        number:newNumber,
+        id:filteredPersons.length + 1
       }))
     }
   }
@@ -57,25 +67,11 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <div>
-          filter shown with <input className="inputFilter" onChange={handleFilterPersons}/>
-      </div>
+      <Filter text={'filter shown with'} onHandleFilter={handleFilterPersons}/>
       <h2>add a new</h2>
-      <form>
-        <div>
-          name: <input value={newName} onChange={handleChangeNewValue}/>
-        </div>
-        <div>
-          number: <input value={newNumber} className="inputNumber" onChange={handleChangeNewValue}/>
-        </div>
-        <div>
-          <button onClick={handleSumbmitNewName} type="submit">add</button>
-        </div>
-      </form>
+      <PersonForm onSumbitForm={handleSumbmitNewName} number={newNumber} onChangeNumber={handleChangeNewValue} name={newName} onChangeName={handleChangeNewValue}/>
       <h2>Numbers</h2>
-      {filteredPersons.map(person =>{
-        return <p key={person.id}>{person.name} {person.number}</p>
-      })}
+      <Persons persons={filteredPersons}/>
     </div>
   )
 }
