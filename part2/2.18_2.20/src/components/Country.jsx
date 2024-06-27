@@ -1,6 +1,7 @@
 
 function Country({country}) {
     const countryLangs = Object.entries(country.languages)
+    debugger
     return (
      <div>
         <h2>{country.name.common}</h2>
@@ -14,6 +15,7 @@ function Country({country}) {
                 return <li key={lang[0]}>{lang[1]}</li>
             })}
         </ul>
+        <img src={country.flags.png} alt={country.flags.alt}/> 
      </div>
     )
   }
