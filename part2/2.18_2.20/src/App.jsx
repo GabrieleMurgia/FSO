@@ -8,7 +8,7 @@ import Country from './components/Country'
 
 function App() {
 
-  const { getAll } = countryServices
+  const { getAll , getWeather } = countryServices
   const [showMessage,setShowMessage] = useState('')
   const [countries,setCountries] = useState([])
   const [countriesList, setCountriesList] = useState([])
@@ -23,6 +23,11 @@ function App() {
       setIsInputAbled(true)
     })
   }, [])
+
+  function handleSinlgeDetail(country){
+    setShowDetailCountry(true)
+    setCountriesList([country])
+  }
 
   function handleSearchCountry(e) {
     const filterValue = e.target.value.trim().toLowerCase();
@@ -57,7 +62,7 @@ function App() {
   return (
     <>
     <Filter abled={isInputAbled} messageText={showMessage} onSearchCountry={handleSearchCountry}/>
-    {!showDetailCountry ? <Countries countries={showMessage === '' ? countriesList : []}/> : <Country country={countriesList[0]}/>}
+    {!showDetailCountry ? <Countries onHandleDetail={handleSinlgeDetail} countries={showMessage === '' ? countriesList : []}/> : <Country handleGetWeather={getWeather} country={countriesList[0]}/>}
     </>
   )
 }

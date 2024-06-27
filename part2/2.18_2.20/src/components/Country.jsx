@@ -1,7 +1,20 @@
+import { useEffect } from "react"
+import { useState } from "react"
+import Weather from "./Weather";
 
-function Country({country}) {
+function Country({country , handleGetWeather}) {
+
+    const [weather , setWeather] = useState(null)
+
+    useEffect(()=>{
+        handleGetWeather(country)
+        .then(response => {
+            setWeather(response.current)
+            debugger
+        })
+    },[])
+
     const countryLangs = Object.entries(country.languages)
-    debugger
     return (
      <div>
         <h2>{country.name.common}</h2>
@@ -15,7 +28,9 @@ function Country({country}) {
                 return <li key={lang[0]}>{lang[1]}</li>
             })}
         </ul>
-        <img src={country.flags.png} alt={country.flags.alt}/> 
+        <img src={country.flags.png} alt={country.flags.alt}/>
+
+       {weather ?  <Weather country={country} weather={weather}/> : null}
      </div>
     )
   }
