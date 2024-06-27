@@ -3,12 +3,11 @@ import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
 import Persons from './components/Persons'
 import { useEffect } from 'react'
-import axios from 'axios'
 import personServices from './services/persons'
 
 
 const App = () => {
-  const {getAll , create} = personServices
+  const {getAll , create , deletePerson} = personServices
   const [persons, setPersons] = useState([]) 
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState(0)
@@ -32,17 +31,15 @@ const App = () => {
       let newObj = {
         name:newName,
         number:newNumber,
-        id:filteredPersons.length + 1
+        id:JSON.stringify(filteredPersons.length + 1)
       }
 
       create(newObj)
       .then(req => {
         req.data
       })
-      .then(res => console.log(res))
 
       setFilteredPersons(filteredPersons.concat(newObj))
-
       setPersons(filteredPersons.concat(newObj))
     }
   }
@@ -69,6 +66,20 @@ const App = () => {
     }
   }
 
+  function handleDeletePerson(person){
+    if (window.confirm(`Delete ${person.name} ?`)) {
+      deletePerson(person.id)
+      .then(deletedPerson => {  
+        let fPersons = persons.filter(aPerson => aPerson.id != deletedPerson.id)
+        setFilteredPersons(fPersons)
+        setPersons(fPersons)
+      })
+      .catch(err =>{
+        console.error(err)
+      })
+    }
+  }
+
   function handleOnlyNumberValues(cValue){
   const nonNumericPattern = /[^\d.+-]/;
   if (nonNumericPattern.test(cValue)) {
@@ -84,7 +95,7 @@ const App = () => {
       <h2>add a new</h2>
       <PersonForm onSumbitForm={handleSumbmitNewName} number={newNumber} onChangeNumber={handleChangeNewValue} name={newName} onChangeName={handleChangeNewValue}/>
       <h2>Numbers</h2>
-      <Persons persons={filteredPersons}/>
+      <Persons persons={filteredPersons} handleDeletePerson={handleDeletePerson}/>
     </div>
   )
 }
