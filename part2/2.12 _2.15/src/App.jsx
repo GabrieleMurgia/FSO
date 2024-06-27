@@ -7,7 +7,7 @@ import personServices from './services/persons'
 
 
 const App = () => {
-  const {getAll , create , deletePerson} = personServices
+  const {getAll , create , deletePerson , update} = personServices
   const [persons, setPersons] = useState([]) 
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState(0)
@@ -26,7 +26,25 @@ const App = () => {
   function handleSumbmitNewName(e){
     e.preventDefault()
     if(filteredPersons.filter(person => person.name == newName).length){
-      alert(`${newName} is already added to phonebook`)
+      let personToUpdate = {...filteredPersons.filter(person => person.name == newName)[0],number:newNumber}
+      if (window.confirm(`${personToUpdate.name} is already added to phonebook, replace the old numbber with a new one?`)) {
+        
+        update(personToUpdate)
+        .then(updatedPerson => {  
+          let updatedPersons = persons.map(person => {
+            if(person.id === updatedPerson.id){
+              return updatedPerson
+            }else{
+              return person
+            }})
+            
+            setFilteredPersons(updatedPersons)
+            setPersons(updatedPersons)
+        })
+        .catch(err =>{
+          console.error(err)
+        })
+      }
     }else{
       let newObj = {
         name:newName,
